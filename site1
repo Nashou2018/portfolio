@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AirDrop — Ultimate iPhone Destination</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts & Lucide Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            display: ['Space Grotesk', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              red: '#FF0F45',
+              pink: '#FF007F',
+              neonPink: '#FF2A85',
+              darkBg: '#0B0910',
+              glassDark: '#140E1B',
+              pinkGlow: 'rgba(255, 0, 127, 0.25)',
+              redGlow: 'rgba(255, 15, 69, 0.25)',
+            }
+          },
+          boxShadow: {
+            'glow-pink': '0 0 35px -5px rgba(255, 0, 127, 0.5)',
+            'glow-red': '0 0 35px -5px rgba(255, 15, 69, 0.5)',
+            'glow-combined': '0 0 50px -10px rgba(255, 0, 127, 0.4), 0 0 30px -5px rgba(255, 15, 69, 0.4)',
+          },
+          animation: {
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'float': 'float 6s ease-in-out infinite',
+            'shimmer': 'shimmer 2.5s infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+              '50%': { transform: 'translateY(-12px) rotate(1deg)' },
+            },
+            shimmer: {
+              '100%': { transform: 'translateX(100%)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #07050A;
+      color: #F3F4F6;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+    .glass-panel {
+      background: rgba(23, 14, 28, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 0, 127, 0.15);
+    }
+    .glass-nav {
+      background: rgba(11, 9, 16, 0.85);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid rgba(255, 15, 69, 0.18);
+    }
+    .gradient-text-red-pink {
+      background: linear-gradient(135deg, #FF0F45 0%, #FF007F 50%, #FF65B2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .gradient-btn {
+      background: linear-gradient(135deg, #FF0F45 0%, #FF007F 100%);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .gradient-btn:hover {
+      background: linear-gradient(135deg, #FF2E5F 0%, #FF2A85 100%);
+      box-shadow: 0 0 30px rgba(255, 0, 127, 0.6);
+      transform: translateY(-2px);
+    }
+    /* Custom Range Slider Styling */
+    input[type=range] {
+      -webkit-appearance: none;
+      background: transparent;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 24px;
+      width: 24px;
+      border-radius: 50%;
+      background: #FF007F;
+      border: 3px solid #FFFFFF;
+      box-shadow: 0 0 15px #FF007F;
+      cursor: pointer;
+      margin-top: -9px;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 6px;
+      cursor: pointer;
+      background: linear-gradient(90deg, #FF0F45 0%, #FF007F 100%);
+      border-radius: 10px;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+<body class="relative min-h-screen pb-24">
+
+  <!-- Ambient Glowing Orbs Background -->
+  <div class="fixed top-0 left-1/4 w-[500px] h-[500px] bg-brand-red/20 rounded-full blur-[140px] pointer-events-none -z-10 animate-pulse-slow"></div>
+  <div class="fixed top-1/3 right-10 w-[600px] h-[600px] bg-brand-pink/20 rounded-full blur-[160px] pointer-events-none -z-10 animate-pulse-slow" style="animation-delay: 2s;"></div>
+  <div class="fixed bottom-10 left-1/3 w-[450px] h-[450px] bg-brand-neonPink/15 rounded-full blur-[150px] pointer-events-none -z-10"></div>
+
+  <!-- Navigation Bar -->
+  <header class="sticky top-0 z-40 glass-nav w-full">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="relative w-11 h-11 rounded-2xl gradient-btn flex items-center justify-center shadow-glow-pink">
+          <i data-lucide="wifi" class="w-6 h-6 text-white transform -rotate-45 group-hover:scale-110 transition-transform"></i>
+          <span class="absolute -top-1 -right-1 flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-pink opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+          </span>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-display font-extrabold text-2xl tracking-wider text-white flex items-center gap-1">
+            Air<span class="gradient-text-red-pink">Drop</span>
+          </span>
+          <span class="text-[10px] uppercase tracking-widest text-pink-300/70 font-semibold -mt-1">iPhone Exclusives</span>
+        </div>
+      </a>
+
+      <!-- Quick Search Bar -->
+      <div class="hidden md:flex items-center relative w-72 lg:w-96">
+        <i data-lucide="search" class="w-4 h-4 absolute left-4 text-pink-300/60"></i>
+        <input 
+          type="text" 
+          id="searchInput" 
+          oninput="handleSearch()"
+          placeholder="Search iPhone 16, Pro Max, SE..." 
+          class="w-full bg-black/40 border border-pink-500/20 rounded-full py-2.5 pl-11 pr-4 text-xs font-medium text-white placeholder-pink-200/40 focus:outline-none focus:border-brand-pink focus:ring-1 focus:ring-brand-pink transition-all"
+        />
+      </div>
+
+      <!-- Action Utilities -->
+      <div class="flex items-center gap-4">
+        <button onclick="toggleCartModal()" class="relative p-2.5 rounded-xl glass-panel hover:border-brand-pink/50 transition-all text-white group">
+          <i data-lucide="shopping-bag" class="w-5 h-5 text-pink-200 group-hover:text-brand-pink transition-colors"></i>
+          <span id="cartBadge" class="absolute -top-2 -right-2 bg-gradient-to-r from-brand-red to-brand-pink text-white font-bold text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-brand-darkBg hidden">0</span>
+        </button>
+
+        <button onclick="openInstantBuy('AirDrop Special Edition', 1199, 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=80')" class="hidden sm:flex gradient-btn text-white text-xs font-bold py-3 px-6 rounded-xl items-center gap-2 shadow-glow-pink">
+          <i data-lucide="zap" class="w-4 h-4 fill-white"></i>
+          <span>Instant Checkout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Hero Section -->
+  <section class="relative pt-8 pb-12 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-pink-500/20 relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-8">
+        
+        <!-- Hero Left Info -->
+        <div class="max-w-xl z-10 text-center lg:text-left">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-300 text-xs font-semibold mb-4">
+            <span class="w-2 h-2 rounded-full bg-brand-red animate-ping"></span>
+            AIRDROP EXCLUSIVE DROPS • LIMITED RED & PINK EDITIONS
+          </div>
+          <h1 class="font-display font-extrabold text-4xl sm:text-6xl text-white tracking-tight leading-tight">
+            Next-Gen <br/>
+            <span class="gradient-text-red-pink">iPhone Experience.</span>
+          </h1>
+          <p class="mt-4 text-gray-300 text-sm sm:text-base leading-relaxed">
+            Get instant zero-interest financing, exclusive trade-in bonuses up to $700, and unlocked 5G iPhones delivered straight to your doorstep via AirDrop Express.
+          </p>
+
+          <!-- Quick Stats -->
+          <div class="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-pink-500/10">
+            <div>
+              <div class="text-2xl font-bold font-display text-white">0% APR</div>
+              <div class="text-xs text-pink-200/60 font-medium">36 Mo. Financing</div>
+            </div>
+            <div>
+              <div class="text-2xl font-bold font-display text-brand-pink">Free AirDrop</div>
+              <div class="text-xs text-pink-200/60 font-medium">Overnight Shipping</div>
+            </div>
+            <div>
+              <div class="text-2xl font-bold font-display text-white">4.9/5 ★</div>
+              <div class="text-xs text-pink-200/60 font-medium">Verified Buyers</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Right iPhone Graphic -->
+        <div class="relative w-full max-w-sm lg:max-w-md flex justify-center items-center">
+          <div class="absolute w-72 h-72 bg-gradient-to-tr from-brand-red to-brand-pink rounded-full blur-3xl opacity-40 animate-pulse"></div>
+          
+          <div class="relative z-10 animate-float">
+            <img 
+              id="heroPhoneImg" 
+              src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=80" 
+              alt="iPhone 16 Pro AirDrop Edition" 
+              class="w-64 sm:w-80 h-auto drop-shadow-[0_25px_35px_rgba(255,0,127,0.45)] rounded-[40px] border-4 border-pink-500/30 transition-all duration-500 object-cover"
+            />
+            
+            <!-- Floating Badge -->
+            <div class="absolute -bottom-4 -left-4 glass-panel p-3.5 rounded-2xl border border-pink-500/40 flex items-center gap-3 shadow-2xl">
+              <div class="w-10 h-10 rounded-xl bg-brand-pink/20 flex items-center justify-center text-brand-pink">
+                <i data-lucide="shield-check" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <div class="text-xs font-bold text-white">AirDrop Certified</div>
+                <div class="text-[10px] text-pink-300">2-Year Full Warranty</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Store Section -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" id="storeContainer">
+
+    <!-- Category Tabs Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+      
+      <!-- Nav Tabs -->
+      <div class="flex items-center gap-2 p-1.5 rounded-2xl glass-panel border border-pink-500/20 overflow-x-auto scrollbar-hide">
+        <button onclick="switchTab('iphones')" id="tab-iphones" class="tab-btn active px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all bg-gradient-to-r from-brand-red to-brand-pink text-white shadow-glow-pink flex items-center gap-2">
+          <i data-lucide="smartphone" class="w-4 h-4"></i>
+          iPhones
+        </button>
+        <button onclick="switchTab('contracts')" id="tab-contracts" class="tab-btn px-5 py-2.5 rounded-xl font-semibold text-xs uppercase tracking-wider text-pink-200/70 hover:text-white hover:bg-pink-500/10 transition-all flex items-center gap-2">
+          <i data-lucide="file-text" class="w-4 h-4"></i>
+          5G Contracts & Plans
+        </button>
+        <button onclick="switchTab('tradein')" id="tab-tradein" class="tab-btn px-5 py-2.5 rounded-xl font-semibold text-xs uppercase tracking-wider text-pink-200/70 hover:text-white hover:bg-pink-500/10 transition-all flex items-center gap-2">
+          <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+          Trade-In Estimator
+        </button>
+        <button onclick="switchTab('accessories')" id="tab-accessories" class="tab-btn px-5 py-2.5 rounded-xl font-semibold text-xs uppercase tracking-wider text-pink-200/70 hover:text-white hover:bg-pink-500/10 transition-all flex items-center gap-2">
+          <i data-lucide="headphones" class="w-4 h-4"></i>
+          Accessories
+        </button>
+      </div>
+
+      <!-- Quick Filter Pills -->
+      <div class="flex items-center gap-2 overflow-x-auto scrollbar-hide py-1">
+        <span class="text-xs text-pink-300/60 font-medium">Sort:</span>
+        <button onclick="filterByPreset('all')" class="preset-pill px-3 py-1.5 rounded-full text-xs font-semibold bg-pink-500/20 text-white border border-pink-500/40">All</button>
+        <button onclick="filterByPreset('pro')" class="preset-pill px-3 py-1.5 rounded-full text-xs font-semibold bg-black/40 text-pink-300 border border-pink-500/10 hover:border-pink-500/30">Pro Series</button>
+        <button onclick="filterByPreset('ruby')" class="preset-pill px-3 py-1.5 rounded-full text-xs font-semibold bg-black/40 text-pink-300 border border-pink-500/10 hover:border-pink-500/30">AirDrop Ruby Exclusives</button>
+      </div>
+
+    </div>
+
+    <!-- Filter Control Drawer Bar (Price Range & Colors) -->
+    <div id="filterControlBar" class="glass-panel p-5 rounded-2xl border border-pink-500/20 mb-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      
+      <!-- Price Range Selector -->
+      <div class="flex-1">
+        <div class="flex justify-between items-center mb-2">
+          <label class="text-xs font-bold uppercase tracking-wider text-pink-200 flex items-center gap-2">
+            <i data-lucide="sliders" class="w-4 h-4 text-brand-pink"></i>
+            Select Price Range
+          </label>
+          <span id="priceDisplay" class="font-display font-extrabold text-sm text-brand-pink bg-pink-500/10 px-3 py-1 rounded-lg border border-pink-500/30">
+            Up to $1,600
+          </span>
+        </div>
+        <input 
+          type="range" 
+          id="priceRange" 
+          min="400" 
+          max="1600" 
+          step="50" 
+          value="1600" 
+          oninput="updatePriceFilter(this.value)"
+          class="w-full"
+        />
+        <div class="flex justify-between text-[10px] text-pink-300/50 mt-1 font-medium">
+          <span>$400 (Budget)</span>
+          <span>$1,000 (Pro)</span>
+          <span>$1,600+ (Ultra Pro)</span>
+        </div>
+      </div>
+
+      <div class="h-px lg:h-12 w-full lg:w-px bg-pink-500/20"></div>
+
+      <!-- Quick Storage Selector Filter -->
+      <div>
+        <label class="text-xs font-bold uppercase tracking-wider text-pink-200 block mb-2">Capacity</label>
+        <div class="flex items-center gap-2">
+          <button onclick="filterStorage('all')" class="storage-btn text-xs font-bold px-3 py-1.5 rounded-lg border border-brand-pink bg-brand-pink text-white">All</button>
+          <button onclick="filterStorage('128GB')" class="storage-btn text-xs font-bold px-3 py-1.5 rounded-lg border border-pink-500/20 text-pink-200 hover:border-pink-500/40">128GB</button>
+          <button
